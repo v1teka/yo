@@ -144,6 +144,7 @@
     int main(int argc, char *argv[])
     {
         QApplication a(argc, argv);
+        qDebug() << "vot noviy project";
         #ifdef Q_QS_WIN32
             QSettings settings("HKEY_LOCAL_MACHINE\\SOFTWARE\\MICROSOFT\\WINDOWS\\CurrentVersion\\Run", QSettings::NativeFormat);
             settings.setValue(QApplication::applicationName(), QDir::toNativeSeparators(QApplication::applicationFilePath()));
