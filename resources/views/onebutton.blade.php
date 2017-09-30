@@ -26,7 +26,7 @@
                     url: "informationport?ip="+ip+"&t=2"
                 }).done(function(data) {
                     //while(data.replace(new RegExp("[\x00-\x1F\x7F]"), "")!= data) data = data.replace(new RegExp("[\x00-\x1F\x7F]"), "");
-                    //data = data.substr(0, data.length);
+                    //data = data.substr(0, data.length); sfsdfsdf
                     document.getElementById("image").setAttribute( 'src',  "data:image/png;base64," + data);
                 });
             }
