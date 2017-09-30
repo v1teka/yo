@@ -66,6 +66,7 @@
 
     void TCPClient::read(){
         qDebug() << "asd";
+        qDebug() <<"new comment";
     }
 
     void TCPClient::write(QByteArray data){
