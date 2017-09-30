@@ -14,3 +14,5 @@ Route::any('/information', function () {
     return view('onebutton');
 });
 Route::any('/informationport', 'InvBaseController@Info');
+
+//отцеплено head
