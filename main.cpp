@@ -18,6 +18,7 @@
 #include <QProcess>
 #include <QDir>
 
+/*sadasdasdasd*/
 using namespace std;
 
 QSysInfo systemInfo;
