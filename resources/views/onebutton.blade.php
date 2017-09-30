@@ -27,6 +27,7 @@
                 }).done(function(data) {
                     //while(data.replace(new RegExp("[\x00-\x1F\x7F]"), "")!= data) data = data.replace(new RegExp("[\x00-\x1F\x7F]"), "");
                     //data = data.substr(0, data.length); sfsdfsdf
+                    //Поменял код
                     document.getElementById("image").setAttribute( 'src',  "data:image/png;base64," + data);
                 });
             }
