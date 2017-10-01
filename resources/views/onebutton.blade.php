@@ -63,22 +63,22 @@
         </div>
         <div>
             <p>Kostyan</p>
-            <button onClick="zaprosec('192.168.1.53')">Информация</button>
-            <button onClick="zaproscreen('192.168.1.53')">Скриншот</button>
+            <button onClick="getinfo('192.168.1.53')">Информация</button>
+            <button onClick="getscreen('192.168.1.53')">Скриншот</button>
             <button disabled onClick="shutdown('192.168.1.53')">Выключить нахуй</button>
             <button disabled onClick="message('192.168.1.53')">Сообщение</button>
         </div>
         <div>
             <p>vovanja</p>
-            <button onClick="zaprosec('192.168.1.58')">Информация</button>
-            <button onClick="zaproscreen('192.168.1.58')">Скриншот</button>
+            <button onClick="getinfo('192.168.1.58')">Информация</button>
+            <button onClick="getscreen('192.168.1.58')">Скриншот</button>
             <button onClick="shutdown('192.168.1.58')">Выключить нахуй</button>
             <button onClick="message('192.168.1.58')">Сообщение</button>
         </div>
         <div>
             <p>vitalya</p>
-            <button onClick="zaprosec('192.168.1.69')">Информация</button>
-            <button onClick="zaproscreen('192.168.1.69')">Скриншот</button>
+            <button onClick="getinfo('192.168.1.69')">Информация</button>
+            <button onClick="getscreen('192.168.1.69')">Скриншот</button>
             <button onClick="shutdown('192.168.1.69')">Выключить нахуй</button>
             <button onClick="message('192.168.1.69')">Сообщение</button>
         </div>
