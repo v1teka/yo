@@ -48,7 +48,8 @@ class InvBaseController extends Controller
 
     public function Info(Request $request){
         $fp = fsockopen($request['ip'], 9999);
-        fputs($fp, $request['t'].$request['message']);
+        if($request['t']==4) fputs($fp, "4".$request['message']);
+        else fputs($fp, $request['t']);
         $answer = stream_get_contents($fp);
         return $answer;
         fclose($fp);
