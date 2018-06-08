@@ -11,7 +11,7 @@
             }
             function getinfo(ip){
                 $.ajax({
-                    url: "informationport?ip="+ip+"&t=1"
+                    url: "direct?ip="+ip+"&t=1"
                 }).done(function(data) {
                     /*var asd = data.split('|');
                     asd.forEach(function callback(cur,ind,arr){
@@ -23,7 +23,7 @@
 
             function getscreen(ip){
                 $.ajax({
-                    url: "informationport?ip="+ip+"&t=2"
+                    url: "direct?ip="+ip+"&t=2"
                 }).done(function(data) {
                     //while(data.replace(new RegExp("[\x00-\x1F\x7F]"), "")!= data) data = data.replace(new RegExp("[\x00-\x1F\x7F]"), "");
                     //data = data.substr(0, data.length); sfsdfsdf
@@ -34,15 +34,28 @@
 
             function shutdown(ip){
                 $.ajax({
-                    url: "informationport?ip="+ip+"&t=3"
+                    url: "direct?ip="+ip+"&t=3"
                 });
             }
 
             function message(ip){
                 $.ajax({
-                    url: "informationport?ip="+ip+"&t=4&message="+$("#messageinput").val()
+                    url: "direct?ip="+ip+"&t=4&message="+$("#messageinput").val()
                 });
             }
+
+            function updateOnline(){
+                $.ajax({
+                    url: "direct?ip="+ip+"&t=4&message="+$("#messageinput").val()
+                });
+            }
+
+            function getMap(){
+
+            }
+            $(document).ready(function(){
+                getMap();
+            });
         </script>
     </head>
     <body>
@@ -51,35 +64,35 @@
             <p>local</p>
             <button onClick="getinfo('127.0.0.1')">Информация</button>
             <button onClick="getscreen('127.0.0.1')">Скриншот</button>
-            <button onClick="shutdown('127.0.0.1')">Выключить нахуй</button>
+            <button onClick="shutdown('127.0.0.1')">Выключить</button>
             <button onClick="message('127.0.0.1')">Сообщение</button>
         </div>
         <div>
             <p>vitya</p>
             <button onClick="getinfo('192.168.1.39')">Информация</button>
             <button onClick="getscreen('192.168.1.39')">Скриншот</button>
-            <button onClick="shutdown('192.168.1.39')">Выключить нахуй</button>
+            <button onClick="shutdown('192.168.1.39')">Выключить</button>
             <button onClick="message('192.168.1.39')">Сообщение</button>
         </div>
         <div>
             <p>Kostyan</p>
             <button onClick="getinfo('192.168.1.53')">Информация</button>
             <button onClick="getscreen('192.168.1.53')">Скриншот</button>
-            <button disabled onClick="shutdown('192.168.1.53')">Выключить нахуй</button>
+            <button disabled onClick="shutdown('192.168.1.53')">Выключить</button>
             <button disabled onClick="message('192.168.1.53')">Сообщение</button>
         </div>
         <div>
             <p>vovanja</p>
             <button onClick="getinfo('192.168.1.58')">Информация</button>
             <button onClick="getscreen('192.168.1.58')">Скриншот</button>
-            <button onClick="shutdown('192.168.1.58')">Выключить нахуй</button>
+            <button onClick="shutdown('192.168.1.58')">Выключить</button>
             <button onClick="message('192.168.1.58')">Сообщение</button>
         </div>
         <div>
             <p>vitalya</p>
             <button onClick="getinfo('192.168.1.69')">Информация</button>
             <button onClick="getscreen('192.168.1.69')">Скриншот</button>
-            <button onClick="shutdown('192.168.1.69')">Выключить нахуй</button>
+            <button onClick="shutdown('192.168.1.69')">Выключить</button>
             <button onClick="message('192.168.1.69')">Сообщение</button>
         </div>
         <p id="info"></p>

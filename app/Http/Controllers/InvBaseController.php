@@ -51,7 +51,46 @@ class InvBaseController extends Controller
         if($request['t']==4) fputs($fp, "4".$request['message']);
         else fputs($fp, $request['t']);
         $answer = stream_get_contents($fp);
-        return $answer;
         fclose($fp);
+        return $answer;
+    }
+
+    public function Map(Request $request){
+    
+        return 1;
+    }
+
+    public function Draw(Request $request){
+        if($request['room']){
+            return view('room')->with('number', $request['room']);
+        }else{
+            return view('rooms');
+        }
+    }
+
+    public function isOnline(Request $request){
+        
+    }
+
+    public function arpScan(){
+        $arp_scan = shell_exec('arp -a');
+        /*$arp_scan = explode("\n", $arp_scan);
+        $matches;
+        $result = "";
+        foreach($arp_scan as $scan) {
+            $matches = array();
+
+            if(preg_match('/^([0-9\.]+)[[:space:]]+([0-9a-f:]+)[[:space:]]+(.+)$/', $scan, $matches) != 1) {
+                continue;
+            }
+            
+            $ip = $matches[1];/*
+	        $mac = $matches[2];
+            $desc = $matches[3];
+    
+            $result .= $ip;
+        }*/
+        $result = $arp_scan;
+        return "<p>$result</p>";  
     }
 }

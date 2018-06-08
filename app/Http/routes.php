@@ -13,6 +13,13 @@ Route::any('/register', 'InvBaseController@Register');
 Route::any('/information', function () {
     return view('onebutton');
 });
-Route::any('/informationport', 'InvBaseController@Info');
 
-//отцеплено head
+Route::any('/direct', 'InvBaseController@Info');
+
+Route::any('/mapinfo', 'InvBaseController@Map');
+
+Route::any('/map', 'InvBaseController@Draw');
+
+Route::any('/online', 'InvBaseController@isOnline');
+
+Route::any('/arp', 'InvBaseController@arpScan');
