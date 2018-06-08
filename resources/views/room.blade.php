@@ -47,7 +47,7 @@
                                 comp.setAttributeNS(null, "ip", data['comp' + i].ip);
                                 comp.setAttributeNS(null, "stroke", "black");
                                 comp.setAttributeNS(null, "fill", "white");
-                                $(comp).bind("click", function(event){showInfo(this)});
+                                $(comp).bind("click", function(event){isOnline(this)});
                                 document.querySelector("svg").appendChild(comp);
                                 }
                             }
@@ -95,17 +95,16 @@
 
             function isOnline(e){
                 $.ajax({
-                    url: "online?ip="+e.getAttribute("ip"),
+                    url: "arp?ip="+e.getAttribute("ip"),
                 }).done(function(data){
-                    return data;
+                    if(data==1){
+                        e.setAttribute("fill", "blue");
+                        return true;
+                     }else{
+                        e.setAttribute("fill", "white");
+                        return false;
+                     }
                 });
-                if(true){
-                    e.setAttribute("fill", "blue");
-                    return true;
-                }else{
-                    e.setAttribute("fill", "white");
-                    return false;
-                }
             }
 
             function getinfo(ip){

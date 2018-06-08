@@ -72,25 +72,14 @@ class InvBaseController extends Controller
         
     }
 
-    public function arpScan(){
+    public function arpScan(Request $request){
         $arp_scan = shell_exec('arp -a');
-        /*$arp_scan = explode("\n", $arp_scan);
-        $matches;
-        $result = "";
+        $arp_scan = explode("\n", $arp_scan);
+        $result="";
         foreach($arp_scan as $scan) {
-            $matches = array();
-
-            if(preg_match('/^([0-9\.]+)[[:space:]]+([0-9a-f:]+)[[:space:]]+(.+)$/', $scan, $matches) != 1) {
-                continue;
-            }
-            
-            $ip = $matches[1];/*
-	        $mac = $matches[2];
-            $desc = $matches[3];
-    
-            $result .= $ip;
-        }*/
-        $result = $arp_scan;
-        return "<p>$result</p>";  
+            if(strpos($scan, $request['ip']))
+                return 1;
+        }
+        return 0;
     }
 }
