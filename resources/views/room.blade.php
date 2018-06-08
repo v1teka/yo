@@ -47,7 +47,7 @@
                                 comp.setAttributeNS(null, "ip", data['comp' + i].ip);
                                 comp.setAttributeNS(null, "stroke", "black");
                                 comp.setAttributeNS(null, "fill", "white");
-                                $(comp).bind("click", function(event){isOnline(this)});
+                                $(comp).bind("click", function(event){showInfo(this)});
                                 document.querySelector("svg").appendChild(comp);
                                 }
                             }
@@ -63,6 +63,7 @@
             }
 
             function showInfo(elem){
+                isOnline(elem);
                 $("#image").attr("src", "");
                 elem.setAttribute("fill", "white");
                 disableButtons();
