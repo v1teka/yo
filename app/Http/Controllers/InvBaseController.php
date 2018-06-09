@@ -32,18 +32,10 @@ class InvBaseController extends Controller
     public function Register(Request $request){
         $data = $request->all();
         if(/* проверка */true)
-            return 'machine had been already registered';
+            return 'the machine is already registered';
         else{
-            return 'machine is registered';
+            return 'machine has been registered';
         }
-    }
-
-    public function anothersite(){
-        $is_loged = false;
-        if(!$is_loged)
-            return view('auth');
-        else
-            return view('add_state');
     }
 
     public function Info(Request $request){
@@ -77,7 +69,7 @@ class InvBaseController extends Controller
         $arp_scan = explode("\n", $arp_scan);
         $result="";
         foreach($arp_scan as $scan) {
-            if(strpos($scan, $request['ip']))
+            if($request['ip']=='127.0.0.1' || strpos($scan, $request['ip']))
                 return 1;
         }
         return 0;

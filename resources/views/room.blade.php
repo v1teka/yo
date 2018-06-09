@@ -12,53 +12,51 @@
                 background-color: #fffff1;
             }
         </style>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="/jquery-3.2.1.js"></script>
         <script>
             var aud116a = 83;
             var currentIP = 0;
-            function updateMap(num) {
+
+            
+
+            function drawRoom(num) {
+                var audience = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                audience.setAttributeNS(null, "d", "M50 50 L350 50 L350 750 L100 750 L100 700 L50 700 Z");
+                audience.setAttributeNS(null, "stroke-width", 2);
+                audience.setAttributeNS(null, "stroke", "black");
+                audience.setAttributeNS(null, "fill-opacity", 0);
+                document.querySelector("svg").appendChild(audience);
+
                 $.ajax({
                     type: 'POST',
                     dataType: 'json',
-                    url: 'getMap.php?number='+num,
-                    success: function (data) {
-                        var audience116a = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                        audience116a.setAttributeNS(null, "d", "M50 50 L350 50 L350 750 L100 750 L100 700 L50 700 Z");
-                        audience116a.setAttributeNS(null, "stroke-width", 2);
-                        audience116a.setAttributeNS(null, "stroke", "black");
-                        audience116a.setAttributeNS(null, "fill-opacity", 0);
-                        document.querySelector("svg").appendChild(audience116a);
-                        
-                        var i;
-                        for(i = 1; i < aud116a + 1; i++)
-                        {
-                            if ((data['comp' + i].locationX))
-                            {
-                                if ( ((data['comp' + i].locationX !=1)||(data['comp' + i].locationY !=14))&&((data['comp' + i].locationX < 7)||(data['comp' + i].locationY < 15)) )
-                                {
-                                var comp = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                                var x = data['comp' + i].locationX;
-                                var y = data['comp' + i].locationY;
-                                comp.setAttributeNS(null, "x", 50*x);
-                                comp.setAttributeNS(null, "y", 50*y);
-                                comp.setAttributeNS(null, "width", 50);
-                                comp.setAttributeNS(null, "height", 50);
-                                comp.setAttributeNS(null, "id", 'comp' + i);
-                                comp.setAttributeNS(null, "ip", data['comp' + i].ip);
-                                comp.setAttributeNS(null, "stroke", "black");
-                                comp.setAttributeNS(null, "fill", "white");
-                                $(comp).bind("click", function(event){showInfo(this)});
-                                document.querySelector("svg").appendChild(comp);
-                                }
-                            }
-                            else
-                            {
-                                var forRemove = document.getElementById('comp'+i);
-                                document.querySelector("svg").removeChild(forRemove);
-                            }
-                        }
-
-                    }
+                    url: 'getMap.php?number='+num
+                }).done(function(data) {
+                        drawInv(data);
+                        $("#shutdownroom").bind("click", function(event){shutDownRoom(); return false;});
+                        checkOnline(); //settimeout
+                    });
+            }
+            
+            function drawInv(data){  
+                var i;
+                $.each(data, function(i){
+                    var invObject = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                    var x = data[i].locationX;
+                    var y = data[i].locationY;
+                    invObject.setAttributeNS(null, "x", 50*x);
+                    invObject.setAttributeNS(null, "y", 50*y);
+                    invObject.setAttributeNS(null, "title", data[i].name); //наименование из свойства
+                    invObject.setAttributeNS(null, "width", 50); //ширина высота из свойств
+                    invObject.setAttributeNS(null, "height", 50);
+                    invObject.setAttributeNS(null, "class", data[i].type);  //класс из свойства
+                    invObject.setAttributeNS(null, "id", 'object' + i);
+                    invObject.setAttributeNS(null, "ip", data[i].ip);
+                    invObject.setAttributeNS(null, "stroke", "black");
+                    if(data[i].online==1)    invObject.setAttributeNS(null, "fill", "blue");
+                    else    invObject.setAttributeNS(null, "fill", "white");
+                    $(invObject).bind("click", function(event){showInfo(this)});
+                    document.querySelector("svg").appendChild(invObject);
                 });
             }
 
@@ -107,6 +105,13 @@
                      }
                 });
             }
+            
+            function checkOnline(){
+                $('rect.pc').each(function(){
+                    isOnline(this);
+                });
+                setTimeout(checkOnline, 30000);
+            }
 
             function getinfo(ip){
                 $.ajax({
@@ -129,8 +134,15 @@
             }
 
             function shutdown(ip){
+                console.log(ip);
                 $.ajax({
                     url: "direct?ip="+ip+"&t=3"
+                });
+            }
+            
+            function shutDownRoom(){
+                $('rect.pc').each(function(){
+                    shutdown($(this).attr('ip'));
                 });
             }
 
@@ -141,7 +153,7 @@
             }
 
             $(document).ready(function(){
-                updateMap("{{ $number }}");
+                drawRoom("{{ $number }}");
             });
         </script>
     </head>
@@ -149,6 +161,7 @@
         <h1>отрисовка кабинета {{$number}}</h1>
         <div>
             <a href="map">выбрать кабинет</a>
+            <a id="shutdownroom" href="#">отключить все</a>
         </div>
         <svg width="1000px" height="1000px" id="canvas" />
         <div id="manage" style="display:none">
