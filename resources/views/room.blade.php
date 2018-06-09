@@ -45,7 +45,7 @@
                     invObject.setAttributeNS(null, "ip", data[i].ip);
                     
                     if(data[i].active==1)   invObject.setAttributeNS(null, "fill", "blue");
-                    
+
                     $(invObject).bind("click", function(event){showInfo(this)});
                     document.querySelector("svg").appendChild(invObject);
                 });
@@ -53,8 +53,8 @@
             
             function createInventory(type, x, y){
                 var newObject = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                invObject.setAttributeNS(null, "stroke", "black");
-                invObject.setAttributeNS(null, "fill", "white");
+                newObject.setAttributeNS(null, "stroke", "black");
+                newObject.setAttributeNS(null, "fill", "white");
                 var width=50;
                 var height = 50;
                 var typeName = "pc";
@@ -64,8 +64,8 @@
                     height = 60;
                     typeName = "table";
                 }
-                newObject.setAttributeNS(null, "x", x);
-                newObject.setAttributeNS(null, "y", y);
+                newObject.setAttributeNS(null, "x", x*50);
+                newObject.setAttributeNS(null, "y", y*50);
                 newObject.setAttributeNS(null, "width", width);
                 newObject.setAttributeNS(null, "height", height);
                 newObject.setAttributeNS(null, "class", typeName);
