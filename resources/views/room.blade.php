@@ -14,14 +14,11 @@
         </style>
         <script type="text/javascript" src="/jquery-3.2.1.js"></script>
         <script>
-            var aud116a = 83;
-            var currentIP = 0;
-
+            var currentIP = "";
             
-
             function drawRoom(num) {
                 var audience = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                audience.setAttributeNS(null, "d", "M50 50 L350 50 L350 750 L100 750 L100 700 L50 700 Z");
+                audience.setAttributeNS(null, "d", "M50 50 L350 50 L350 750 L100 750 L100 700 L50 700 Z"); //взять path из базы
                 audience.setAttributeNS(null, "stroke-width", 2);
                 audience.setAttributeNS(null, "stroke", "black");
                 audience.setAttributeNS(null, "fill-opacity", 0);
@@ -34,30 +31,45 @@
                 }).done(function(data) {
                         drawInv(data);
                         $("#shutdownroom").bind("click", function(event){shutDownRoom(); return false;});
-                        checkOnline(); //settimeout
+                        checkOnline();
                     });
             }
             
             function drawInv(data){  
                 var i;
                 $.each(data, function(i){
-                    var invObject = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                    var x = data[i].locationX;
-                    var y = data[i].locationY;
-                    invObject.setAttributeNS(null, "x", 50*x);
-                    invObject.setAttributeNS(null, "y", 50*y);
-                    invObject.setAttributeNS(null, "title", data[i].name); //наименование из свойства
-                    invObject.setAttributeNS(null, "width", 50); //ширина высота из свойств
-                    invObject.setAttributeNS(null, "height", 50);
-                    invObject.setAttributeNS(null, "class", data[i].type);  //класс из свойства
+                    var invObject = createInventory(data[i].type, data[i].locationX, data[i].locationY);
+                    
+                    invObject.setAttributeNS(null, "title", data[i].name);
                     invObject.setAttributeNS(null, "id", 'object' + i);
                     invObject.setAttributeNS(null, "ip", data[i].ip);
-                    invObject.setAttributeNS(null, "stroke", "black");
-                    if(data[i].online==1)    invObject.setAttributeNS(null, "fill", "blue");
-                    else    invObject.setAttributeNS(null, "fill", "white");
+                    
+                    if(data[i].active==1)   invObject.setAttributeNS(null, "fill", "blue");
+                    
                     $(invObject).bind("click", function(event){showInfo(this)});
                     document.querySelector("svg").appendChild(invObject);
                 });
+            }
+            
+            function createInventory(type, x, y){
+                var newObject = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                invObject.setAttributeNS(null, "stroke", "black");
+                invObject.setAttributeNS(null, "fill", "white");
+                var width=50;
+                var height = 50;
+                var typeName = "pc";
+
+                if(type == 2){
+                    width = 120;
+                    height = 60;
+                    typeName = "table";
+                }
+                newObject.setAttributeNS(null, "x", x);
+                newObject.setAttributeNS(null, "y", y);
+                newObject.setAttributeNS(null, "width", width);
+                newObject.setAttributeNS(null, "height", height);
+                newObject.setAttributeNS(null, "class", typeName);
+                return newObject;
             }
 
             function showInfo(elem){
