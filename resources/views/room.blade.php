@@ -41,6 +41,7 @@
                     var invObject = createInventory(data[i].type, data[i].locationX, data[i].locationY);
                     
                     invObject.setAttributeNS(null, "title", data[i].name);
+                    invObject.setAttributeNS(null, "inv", data[i].inventoryNumber);
                     invObject.setAttributeNS(null, "id", 'object' + i);
                     invObject.setAttributeNS(null, "ip", data[i].ip);
                     
@@ -73,23 +74,24 @@
             }
 
             function showInfo(elem){
-                isOnline(elem);
+                showPrimaryInfo(elem);
+                
                 $("#image").attr("src", "");
-                elem.setAttribute("fill", "white");
                 disableButtons();
-                $("#status").text("Оффлайн");
-                $("#manage p").text(elem.id);
+                
                 $.ajax({
                     url: "direct?ip="+elem.getAttribute("ip")+"&t=1"
                 }).done(function(data) {
-                    elem.setAttribute("fill", "blue");
-                    $("#status").text("Онлайн");
-                    $("#manage p").text(data);
                     currentIP = elem.getAttribute("ip");
                     enableButtons();
-                    $("#manage").show();
                     $("#info").text(data);
                 });
+            }
+            
+            function showPrimaryInfo(elem){
+                $("#manage p").text(elem.getAttribute("class")+ ' ' + elem.getAttribute("title") + ' (' + elem.getAttribute("inv") + ')');
+                if(elem.getAttribute('fill')=='blue') $("#status").text("Онлайн");
+                else  $("#status").text("Оффлайн");
             }
 
             function disableButtons(){
@@ -106,7 +108,7 @@
 
             function isOnline(e){
                 $.ajax({
-                    url: "arp?ip="+e.getAttribute("ip"),
+                    url: "arp?ip="+e.getAttribute("ip")
                 }).done(function(data){
                     if(data==1){
                         e.setAttribute("fill", "blue");
@@ -176,13 +178,13 @@
             <a id="shutdownroom" href="#">отключить все</a>
         </div>
         <svg width="1000px" height="1000px" id="canvas" />
-        <div id="manage" style="display:none">
+        <div id="manage">
             <p></p>
             <span>Статус:</span><span id="status"></span>
-            <button onClick="getscreen(currentIP)">Скриншот</button>
-            <button onClick="shutdown(currentIP)">Выключить</button>
+            <button onClick="getscreen(currentIP)" disabled>Скриншот</button>
+            <button onClick="shutdown(currentIP)" disabled>Выключить</button>
             <input id="messageinput" placeholder="Сообщение" />
-            <button onClick="message(currentIP)">Сообщение</button>
+            <button onClick="message(currentIP)" disabled>Сообщение</button>
             <img id="image" style="max-width: 600px"/>
         </div>
     </body>
